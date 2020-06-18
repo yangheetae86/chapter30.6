@@ -9,8 +9,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var isSpinning: Bool = true
+    
     var body: some View {
-        Text("Hello, World!")
+        ZStack {
+            Circle()
+                .stroke(lineWidth:2)
+                .fill(Color.blue)
+                .frame(width: 360, height: 360)
+            Image(systemName:isSpinning ? "forward.fill" : "backward.fill")
+                .font(.largeTitle)
+                .offset(x: 0, y: -180)
+                .rotationEffect(.degrees(isSpinning ? 0 : 90))
+                .animation(Animation.linear(duration: 5)
+                .repeatForever(autoreverses: true))
+        }
+        .onAppear() {//뷰가 나타나면 .onAppear() 수정자는 isSpinning 상태 프로퍼티를
+            self.isSpinning.toggle()//false로 전환
+        }
     }
 }
 
